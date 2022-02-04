@@ -16,7 +16,7 @@ export class AgendamentoComponent implements OnInit {
 
   ngOnInit(): void {
     this.agendamento = this.fb.group(AGENDAMENTO);
-    this.facade.hideTable = true
+    this.facade.hideTable = true;
   }
 
   save(){

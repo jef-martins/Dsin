@@ -4,13 +4,15 @@ import { OperacionalComponent } from './container/operacional/operacional.compon
 import { GerencialComponent } from './container/gerencial/gerencial.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './admin.routing';
+import { HeaderComponent } from './component/header/header.component';
 
 
 
 @NgModule({
   declarations: [
     OperacionalComponent,
-    GerencialComponent
+    GerencialComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,
