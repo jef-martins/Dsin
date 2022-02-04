@@ -1,0 +1,42 @@
+<app-header></app-header>
+<div class="container">
+    <div class="card mt-3">
+        <div class="card-body">
+            <form [formGroup]="agendamento">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Nome</label>
+                    <input name="name" formControlName="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Telefone</label>
+                    <input name="phone" formControlName="phone" type="text" class="form-control" id="exampleInputPassword1">
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleSelectService1" class="form-label">Selecione um Serviço</label>
+                    <select class="form-select" formControlName="service" aria-label="Default select example">
+                        <option value="cabelo">Cabelo</option>
+                        <option value="maquiagem">Maquiagem</option>
+                        <option value="manicure">Manicure</option>
+                        <option value="pedicure">Pédicure</option>
+                      </select>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <label for="exampleInputPassword2" class="form-label">Data Agendamento</label>
+                        <input name="date" formControlName="date" type="date" placeholder="dia do agendamento" class="form-control" id="exampleInputDate1">
+                    </div>
+                    <div class="col-6">
+                        <label for="exampleInputPassword3" class="form-label">Hora Agendamento</label>
+                        <input name="time" formControlName="time" type="time" placeholder="hora do agendamento" class="form-control" id="exampleInputTime1">
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                    <button (click)="save()" type="button" class="btn btn-success">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
