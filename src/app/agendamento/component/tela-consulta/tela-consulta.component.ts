@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AGENDAMENTO } from '../../model/agendamento.constates';
 import { Phone } from '../../model/agendamento.model';
 
 @Component({

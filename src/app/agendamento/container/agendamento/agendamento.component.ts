@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AgendamentoFacade } from '../../agendamento.facade';
 import { AGENDAMENTO } from '../../model/agendamento.constates';
+import { Agendamento } from '../../model/agendamento.model';
 
 @Component({
   selector: 'app-agendamento',
@@ -12,15 +14,48 @@ export class AgendamentoComponent implements OnInit {
 
   agendamento!: FormGroup;
 
-  constructor(private facade: AgendamentoFacade, private fb: FormBuilder) { }
+  constructor(
+    public facade: AgendamentoFacade,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
-    this.agendamento = this.fb.group(AGENDAMENTO);
+    this.initForm();
+    this.setHideTable();
+  }
+
+  initForm() {
+    let item: Agendamento | undefined;
+
+    if (this.facade.isEdit.edit)
+      item = this.facade.agendamentoCollection$.value.find(i => i.idAgenda == this.facade.isEdit.id);
+
+    this.agendamento = this.fb.group({
+      idAgenda:[item?.idAgenda || AGENDAMENTO.idAgenda],
+      name:[item?.name || AGENDAMENTO.name, Validators.required],
+      phone:[item?.phone || AGENDAMENTO.phone, Validators.required],
+      service:[item?.service || AGENDAMENTO.service, Validators.required],
+      date:[item?.date || AGENDAMENTO.date, Validators.required],
+      time:[item?.time || AGENDAMENTO.time, Validators.required],
+      createdAt:[item?.createdAt || AGENDAMENTO.createdAt],
+      updatedAt:[item?.updatedAt || AGENDAMENTO.updatedAt],
+    });
+  }
+
+  setHideTable() {
     this.facade.hideTable = true;
   }
 
-  save(){
-    this.facade.save(this.agendamento.value);
+  async save() {
+    const res = await this.facade.save(this.agendamento.value);
+    if (!!res)
+      this.agendamento.setValue(AGENDAMENTO);
+  }
+
+  async update() {
+    const res = await this.facade.update(this.facade.isEdit.id, this.agendamento.value)
+    if (!!res)
+      this.agendamento.setValue({ ...AGENDAMENTO, createdAt: '', updatedAt: '' });
   }
 
 }

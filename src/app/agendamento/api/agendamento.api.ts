@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { Observable } from "rxjs";
+import { Injectable } from "@angular/core";
+import { lastValueFrom } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Agendamento, Phone } from "../model/agendamento.model";
 
@@ -9,15 +9,27 @@ import { Agendamento, Phone } from "../model/agendamento.model";
 })
 export class AgendamentoApi {
 
-    private url = environment.url+"client/";
+    private url = environment.url;
     
     constructor(private httpClient: HttpClient) { }
 
-    save(request: Agendamento): Observable<any> {
-        return this.httpClient.post(this.url, request);
+    beforeAdd(request: Agendamento): Promise<any> {
+        return lastValueFrom(this.httpClient.post(this.url+"week", request));
     }
 
-    select(request: Phone): Observable<any> {
-        return this.httpClient.get(this.url +"/"+ request);
+    save(request: Agendamento): Promise<any> {
+        return lastValueFrom(this.httpClient.post(this.url, request));
+    }
+
+    update(id:number, request: Agendamento): Promise<any> {
+        return lastValueFrom(this.httpClient.put(this.url + id, request));
+    }
+
+    select(request: Phone): Promise<any> {
+        return lastValueFrom(this.httpClient.get(this.url + request.phone));
+    }
+    
+    delete(id: number): Promise<any> {
+        return lastValueFrom(this.httpClient.delete(this.url + id));
     }
 }

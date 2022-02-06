@@ -29,12 +29,13 @@
                     </div>
                     <div class="col-6">
                         <label for="exampleInputPassword3" class="form-label">Hora Agendamento</label>
-                        <input name="time" formControlName="time" type="time" placeholder="hora do agendamento" class="form-control" id="exampleInputTime1">
+                        <input name="time" formControlName="time" type="time" step="1800" min="08:00" max="18:00" placeholder="hora do agendamento" class="form-control" id="exampleInputTime1">
                     </div>
                 </div>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                    <button (click)="save()" type="button" class="btn btn-success">Salvar</button>
+                    <button *ngIf="!facade.isEdit.edit" [disabled]="!agendamento.valid" (click)="save()" type="button" class="btn btn-success">Salvar</button>
+                    <button *ngIf="facade.isEdit.edit" (click)="update()" type="button" class="btn btn-primary">Atualizar</button>
                 </div>
             </form>
         </div>

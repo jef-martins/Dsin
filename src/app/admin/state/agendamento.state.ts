@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { AGENDAMENTO } from "../model/agendamento.constates";
-import { Agendamento } from "../model/agendamento.model";
+import { Agendamento } from "src/app/agendamento/model/agendamento.model";
 
 @Injectable({
     providedIn: 'root'
   })
-  export class AgendamentoState {
+  export class AdminState {
   
     public agendamentoCollection$ = new BehaviorSubject<Agendamento[]>([]);
   

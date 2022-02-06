@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AgendamentoFacade } from '../../agendamento.facade';
-import { Phone } from '../../model/agendamento.model';
+import { Agendamento, Phone } from '../../model/agendamento.model';
+import { format, add } from 'date-fns'
 
+@UntilDestroy()
 @Component({
   selector: 'app-consulta',
   templateUrl: './consulta.component.html',
@@ -9,13 +13,39 @@ import { Phone } from '../../model/agendamento.model';
 })
 export class ConsultaComponent implements OnInit {
 
-  constructor(public facade: AgendamentoFacade) { }
+  agendamentos!: Agendamento[];
+
+  constructor(public facade: AgendamentoFacade, private route: Router) { }
 
   ngOnInit(): void {
+    this.facade.agendamentoCollection$.pipe(untilDestroyed(this)).subscribe(res => {
+
+      const dateFormated = this.formatDate(res);
+
+      this.agendamentos = dateFormated;
+    });
   }
 
-  setSearch(event: Phone){
-    this.facade.select(event)
+  formatDate(itens: Agendamento[]) {
+    return itens.map(item => {
+      return {
+        ...item,
+        date: format(add(new Date(item.date),{days: 1}), 'dd/MM/yyyy')
+      }
+    });
+  }
+
+  async setSearch(event: Phone) {
+    await this.facade.select(event);
+  }
+
+  delete(id: number, phone: string) {
+    this.facade.delete(id, { phone });
+  }
+
+  update(id: number) {
+    this.facade.isEdit = { edit: true, id: id };
+    this.route.navigate(['agendamento']);
   }
 
 }
