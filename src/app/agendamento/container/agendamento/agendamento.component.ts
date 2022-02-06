@@ -58,4 +58,10 @@ export class AgendamentoComponent implements OnInit {
       this.agendamento.setValue({ ...AGENDAMENTO, createdAt: '', updatedAt: '' });
   }
 
+  cancel(){
+    this.facade.isEdit.edit = false;
+    this.facade.isEdit.id = 0;
+    this.agendamento.setValue({ ...AGENDAMENTO, createdAt: '', updatedAt: '' });
+  }
+
 }

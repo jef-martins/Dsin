@@ -36,6 +36,7 @@
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                     <button *ngIf="!facade.isEdit.edit" [disabled]="!agendamento.valid" (click)="save()" type="button" class="btn btn-success">Salvar</button>
                     <button *ngIf="facade.isEdit.edit" (click)="update()" type="button" class="btn btn-primary">Atualizar</button>
+                    <button *ngIf="facade.isEdit.edit" (click)="cancel()" type="button" class="btn btn-danger">Cancelar</button>
                 </div>
             </form>
         </div>
