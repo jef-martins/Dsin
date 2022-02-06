@@ -31,14 +31,14 @@ export class AgendamentoComponent implements OnInit {
       item = this.facade.agendamentoCollection$.value.find(i => i.idAgenda == this.facade.isEdit.id);
 
     this.agendamento = this.fb.group({
-      idAgenda:[item?.idAgenda || AGENDAMENTO.idAgenda],
-      name:[item?.name || AGENDAMENTO.name, Validators.required],
-      phone:[item?.phone || AGENDAMENTO.phone, Validators.required],
-      service:[item?.service || AGENDAMENTO.service, Validators.required],
-      date:[item?.date || AGENDAMENTO.date, Validators.required],
-      time:[item?.time || AGENDAMENTO.time, Validators.required],
-      createdAt:[item?.createdAt || AGENDAMENTO.createdAt],
-      updatedAt:[item?.updatedAt || AGENDAMENTO.updatedAt],
+      idAgenda: [item?.idAgenda || AGENDAMENTO.idAgenda],
+      name: [item?.name || AGENDAMENTO.name, Validators.required],
+      phone: [item?.phone || AGENDAMENTO.phone, Validators.required],
+      service: [item?.service || AGENDAMENTO.service, Validators.required],
+      date: [item?.date || AGENDAMENTO.date, Validators.required],
+      time: [item?.time || AGENDAMENTO.time, Validators.required],
+      createdAt: [item?.createdAt || AGENDAMENTO.createdAt],
+      updatedAt: [item?.updatedAt || AGENDAMENTO.updatedAt],
     });
   }
 
@@ -54,11 +54,14 @@ export class AgendamentoComponent implements OnInit {
 
   async update() {
     const res = await this.facade.update(this.facade.isEdit.id, this.agendamento.value)
-    if (!!res)
+    if (!!res) {
       this.agendamento.setValue({ ...AGENDAMENTO, createdAt: '', updatedAt: '' });
+      this.facade.isEdit.edit = false;
+      this.facade.isEdit.id = 0;
+    }
   }
 
-  cancel(){
+  cancel() {
     this.facade.isEdit.edit = false;
     this.facade.isEdit.id = 0;
     this.agendamento.setValue({ ...AGENDAMENTO, createdAt: '', updatedAt: '' });
